@@ -61,8 +61,6 @@ PRODUCT_PACKAGES += com.android.apex.cts.shim.v1_with_prebuilts.flattened
 # GSI specific tasks on boot
 PRODUCT_PACKAGES += \
     gsi_skip_mount.cfg \
-    init.gsi.rc \
-    init.vndk-nodef.rc \
 
 # Overlay the GSI specific SystemUI setting
 PRODUCT_PACKAGES += gsi_overlay_systemui

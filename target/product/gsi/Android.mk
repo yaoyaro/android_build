@@ -241,31 +241,3 @@ LOCAL_POST_INSTALL_CMD := \
     ln -sf /system/system_ext/etc/init/config $(TARGET_OUT)/etc/init/config
 
 include $(BUILD_PREBUILT)
-
-#####################################################################
-# init.gsi.rc, GSI-specific init script.
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := init.gsi.rc
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0
-LOCAL_LICENSE_CONDITIONS := notice
-LOCAL_NOTICE_FILE := build/soong/licenses/LICENSE
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-LOCAL_MODULE_CLASS := ETC
-LOCAL_SYSTEM_EXT_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := init
-
-include $(BUILD_PREBUILT)
-
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := init.vndk-nodef.rc
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0
-LOCAL_LICENSE_CONDITIONS := notice
-LOCAL_NOTICE_FILE := build/soong/licenses/LICENSE
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-LOCAL_MODULE_CLASS := ETC
-LOCAL_SYSTEM_EXT_MODULE := true
-LOCAL_MODULE_RELATIVE_PATH := gsi
-
-include $(BUILD_PREBUILT)
