@@ -2124,6 +2124,34 @@ function avbtool() {
     "$ANDROID_SOONG_HOST_OUT"/bin/avbtool $@
 }
 
+function setupPerf() {
+    sudo sysctl -w vm.swappiness=1 >/dev/null
+    sudo swapoff -a
+    sudo swapon -a
+    sudo sysctl -w vm.page-cluster=0 >/dev/null
+
+    echo "setup build limits"
+
+    export NINJA_ARGS="-j12"
+    export SOONG_JOBS=12
+
+    export USE_LLD=true
+
+    export GOMEMLIMIT=8GiB
+    export GOGC=50
+
+    export _JAVA_OPTIONS="-Xmx4g"
+    export DEX2OAT_XMX=4g
+
+    echo "  ninja: $NINJA_ARGS"
+    echo "  soong jobs: $SOONG_JOBS"
+    echo "  lld enabled"
+    echo "  go mem limit: $GOMEMLIMIT"
+    echo "  java xmx: 4g"
+
+    echo "[done]"
+}
+
 validate_current_shell
 set_global_paths
 source_vendorsetup
