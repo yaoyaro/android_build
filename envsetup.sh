@@ -2126,8 +2126,6 @@ function avbtool() {
 
 function setupPerf() {
     sudo sysctl -w vm.swappiness=1 >/dev/null
-    sudo swapoff -a
-    sudo swapon -a
     sudo sysctl -w vm.page-cluster=0 >/dev/null
 
     echo "setup build limits"
