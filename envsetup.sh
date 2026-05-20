@@ -2148,15 +2148,16 @@ function cpuCount() {
 
 function perfConfigForRam() {
     local ram_gb="$1"
+    local cpu_count="$2"
 
     if (( ram_gb <= 8 )); then
         echo "4 4GiB 2g"
     elif (( ram_gb <= 32 )); then
         echo "8 8GiB 4g"
     elif (( ram_gb < 64 )); then
-        echo "12 12GiB 6g"
+        echo "$cpu_count 12GiB 6g"
     else
-        echo "16 16GiB 8g"
+        echo "$cpu_count 16GiB 8g"
     fi
 }
 
@@ -2167,7 +2168,7 @@ function defaultBuildJobs() {
 
     ram_gb="$(hostRamGb)"
     cpu_count="$(cpuCount)"
-    jobs="$(perfConfigForRam "$ram_gb")"
+    jobs="$(perfConfigForRam "$ram_gb" "$cpu_count")"
     jobs="${jobs%% *}"
 
     if (( jobs > cpu_count )); then
@@ -2186,7 +2187,7 @@ function setupPerf() {
 
     ram_gb="$(hostRamGb)"
     cpu_count="$(cpuCount)"
-    read -r jobs go_mem_limit java_xmx <<< "$(perfConfigForRam "$ram_gb")"
+    read -r jobs go_mem_limit java_xmx <<< "$(perfConfigForRam "$ram_gb" "$cpu_count")"
 
     if (( jobs > cpu_count )); then
         jobs="$cpu_count"
