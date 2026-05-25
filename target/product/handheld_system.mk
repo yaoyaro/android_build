@@ -54,7 +54,6 @@ PRODUCT_PACKAGES += \
     ManagedProvisioning \
     MmsService \
     MtpService \
-    MusicFX \
     NfcNci \
     PacProcessor \
     preinstalled-packages-platform-handheld-system.xml \
