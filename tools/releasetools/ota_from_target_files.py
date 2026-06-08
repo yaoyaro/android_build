@@ -1231,7 +1231,8 @@ def main(argv):
         raise ValueError("Cannot parse value %r for option %r - only "
                          "integers are allowed." % (a, o))
     elif o == "--backup":
-      OPTIONS.backuptool = True
+      assert a.lower() in ["true", "false"]
+      OPTIONS.backuptool = a.lower() != "false"
     else:
       return False
     return True
