@@ -117,7 +117,7 @@ def CopyInstallTools(output_zip):
       output_zip.write(install_source, install_target)
 
 
-def WriteFullOTAPackage(input_zip, output_file):
+def WriteFullOTAPackage(input_zip, output_file, ship_installtools):
   target_info = common.BuildInfo(OPTIONS.info_dict, OPTIONS.oem_dicts)
 
   # We don't know what version it will be installed on top of. We expect the API
@@ -216,10 +216,11 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
 
-  CopyInstallTools(output_zip)
-  script.UnpackPackageDir("install", "/tmp/install")
-  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0o755, 0o644, None, None)
-  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0o755, 0o755, None, None)
+  if ship_installtools:
+    CopyInstallTools(output_zip)
+    script.UnpackPackageDir("install", "/tmp/install")
+    script.SetPermissionsRecursive("/tmp/install", 0, 0, 0o755, 0o644, None, None)
+    script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0o755, 0o755, None, None)
 
   if target_info.get("system_root_image") == "true":
     sysmount = "/"
@@ -566,7 +567,7 @@ endif;
   FinalizeMetadata(metadata, staging_file, output_file, needed_property_files, package_key=OPTIONS.package_key)
 
 
-def GenerateNonAbOtaPackage(target_file, output_file, source_file=None):
+def GenerateNonAbOtaPackage(target_file, output_file, source_file=None, ship_installtools=True):
   """Generates a non-A/B OTA package."""
   # Check the loaded info dicts first.
   if OPTIONS.info_dict.get("no_recovery") == "true":
@@ -611,7 +612,8 @@ def GenerateNonAbOtaPackage(target_file, output_file, source_file=None):
     with zipfile.ZipFile(target_file) as input_zip:
       WriteFullOTAPackage(
           input_zip,
-          output_file)
+          output_file,
+          ship_installtools)
 
   # Generate an incremental OTA.
   else:
