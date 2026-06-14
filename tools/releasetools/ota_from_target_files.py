@@ -1441,8 +1441,7 @@ def main(argv):
     GenerateNonAbOtaPackage(
         target_file=args[0],
         output_file=args[1],
-        source_file=OPTIONS.incremental_source,
-        ship_installtools=OPTIONS.backuptool)
+        source_file=OPTIONS.incremental_source)
 
   # Post OTA generation works.
   if OPTIONS.incremental_source is not None and OPTIONS.log_diff:
